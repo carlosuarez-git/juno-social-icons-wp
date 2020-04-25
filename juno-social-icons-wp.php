@@ -12,11 +12,12 @@
  // Define el shortcode que pinta el plugin
  add_shortcode( 'juno-social-icons', 'juno_show_social_icons' );
  // Se inserta la librería de Font Awesome para los iconos
- add_action( 'wp_enqueue_scripts', 'juno_load_css' );
+// add_action( 'wp_enqueue_scripts', 'juno_load_css' );
  // Añade una página al menú de administración de wordpress. La acción admin_menu se ejecuta después de colocar el menú básico del administrador. 
  // Por tanto, al añadir nuestra función juno_social_icons_menu en éste punto de ejecución, podemos insertar nuestra página de configuración para el plugin.
  add_action( 'admin_menu', 'juno_social_icons_menu' ); 
 
+ add_action('init', 'juno_register_script');
 
  function juno_social_icons_menu() {
 
@@ -36,10 +37,27 @@
  // Html del plugin
  function juno_show_social_icons() {
 
+    // Obtenemos los registros de la tabla
+    $data = get_data_social_icons();
+
      ob_start();
      ?>
-        <!-- HTML -->
-     <?php
+     <div class="wrap">
+        <?php
+        // Por cada registro se crea un campo URL a rellenar
+        foreach($data as $el) {
+            if ($el->social_url != null 
+                && $el->social_url != "") {
+            ?>
+                <a href="<?php echo $el->social_url ?>" target="_blank" class="juno-a">
+                    <i class="juno-i fa <?php echo $el->fa_icon_class ?>" title="<?php echo $el->social_title ?>"></i>
+                </a>
+            <?php
+            }
+        }
+        ?>
+    </div>
+    <?php
      return ob_get_clean();
  }
 
@@ -111,8 +129,11 @@
  }
 
  // Carga el css de Font Awesome
- function juno_load_css() {
-     wp_enqueue_style( 'load-fa', 'https://use.fontawesome.com/releases/v5.3.1/css/all.css' );
+ function juno_register_script() {
+    wp_register_style( 'load-fa-awesome', 'http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css');
+    wp_enqueue_style( 'load-fa-awesome' );
+    wp_register_style( 'juno-social-icons', plugins_url('public/css/juno-social-icons.css', __FILE__));
+    wp_enqueue_style( 'juno-social-icons' );
  }
 
 

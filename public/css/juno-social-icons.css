@@ -1,0 +1,26 @@
+.fa {
+    font-size:15px;
+	margin:5px;
+}
+
+.juno-a {
+	text-decoration: none;
+}
+
+.juno-i {
+    color: #ffffff;
+    border: 1px solid rgb(255, 255, 255);
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    border-radius: 30px;
+}
+
+.juno-i:hover {
+    color: #000000;
+    border: 1px solid rgb(0, 0, 0);
+    transition: border-color 0.5s;
+    -moz-transition: border-color 0.5s;
+    -webkit-transition: border-color 0.5s;
+}
